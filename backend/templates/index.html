@@ -2,17 +2,49 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Servicios de Reparaciones</title>
+    <title>Servicios de Reparación</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <h1>Servicios de Reparaciones</h1>
-    <ul>
+<header>
+    <h1>Servicios de Reparación</h1>
+    <nav>
+        <select id="filtro">
+            <option value="Todos">Todos</option>
+            {% for d in disciplinas %}
+            <option value="{{ d }}">{{ d }}</option>
+            {% endfor %}
+        </select>
+    </nav>
+</header>
+
+<main>
+    <div class="servicios-grid">
         {% for s in servicios %}
-        <li>
-            <a href="/servicio/{{ s.nombre.replace(' ', '_')|lower }}">{{ s.nombre }}</a>
-            - {{ s.disciplina }}
-        </li>
+        <div class="servicio-card" data-disciplina="{{ s.disciplina }}">
+            <img src="/static/img/{{ s.img }}" alt="{{ s.nombre }}">
+            <a href="/servicio/{{ s.nombre.replace(' ', '_')|lower }}">
+                <h2>{{ s.nombre }}</h2>
+            </a>
+            <p>{{ s.disciplina }}</p>
+        </div>
         {% endfor %}
-    </ul>
+    </div>
+</main>
+
+<script>
+    const filtro = document.getElementById("filtro");
+    filtro.addEventListener("change", () => {
+        const val = filtro.value;
+        document.querySelectorAll(".servicio-card").forEach(card => {
+            if (val === "Todos" || card.dataset.disciplina === val) {
+                card.style.display = "block";
+            } else {
+                card.style.display = "none";
+            }
+        });
+    });
+</script>
 </body>
 </html>

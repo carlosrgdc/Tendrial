@@ -5,39 +5,38 @@ from pathlib import Path
 
 app = FastAPI()
 
+# Definir carpeta base y templates
 BASE_DIR = Path(__file__).resolve().parent
 templates = Jinja2Templates(directory=str(BASE_DIR / "templates"))
 
+# Montar carpeta de archivos estáticos (CSS, JS, imágenes)
 app.mount("/static", StaticFiles(directory=str(BASE_DIR / "static")), name="static")
 
-# Lista de servicios de reparaciones agrupados por disciplina
+# Datos de ejemplo de servicios agrupados por disciplina
 servicios = [
-    {"nombre": "Cambio de lámpara", "disciplina": "Electricidad"},
-    {"nombre": "Cambio de enchufe", "disciplina": "Electricidad"},
-    {"nombre": "Agujeros en pared", "disciplina": "Carpintería / Pintura"},
-    {"nombre": "Desatascar fregadero", "disciplina": "Fontanería"},
-    {"nombre": "Cambio de grifo", "disciplina": "Fontanería"},
-    {"nombre": "Instalar estantería", "disciplina": "Carpintería"},
-    {"nombre": "Pintar habitación", "disciplina": "Pintura"},
-    {"nombre": "Reparar persiana", "disciplina": "Carpintería / Electricidad"},
+    {"nombre": "Cambio de lámpara", "disciplina": "Electricidad", "img": "lampara.svg"},
+    {"nombre": "Cambio de enchufe", "disciplina": "Electricidad", "img": "enchufe.svg"},
+    {"nombre": "Agujeros en pared", "disciplina": "Pintura", "img": "pared.svg"},
+    {"nombre": "Pintar habitación", "disciplina": "Pintura", "img": "pintura.svg"},
+    {"nombre": "Desatascar fregadero", "disciplina": "Fontanería", "img": "fregadero.svg"},
+    {"nombre": "Cambiar grifo", "disciplina": "Fontanería", "img": "grifo.svg"},
+    {"nombre": "Arreglar puerta", "disciplina": "Carpintería", "img": "puerta.svg"},
+    {"nombre": "Montar estantería", "disciplina": "Carpintería", "img": "estanteria.svg"},
 ]
-
-# Diccionario para acceso rápido por "slug"
-servicios_dict = {s["nombre"].replace(" ", "_").lower(): s for s in servicios}
 
 @app.get("/")
 async def home(request: Request):
+    # Obtener disciplinas únicas para desplegable
+    disciplinas = sorted(list({s["disciplina"] for s in servicios}))
     return templates.TemplateResponse(
         "index.html",
-        {"request": request, "servicios": servicios}
+        {"request": request, "servicios": servicios, "disciplinas": disciplinas}
     )
 
-@app.get("/servicio/{slug}")
-async def ver_servicio(request: Request, slug: str):
-    servicio = servicios_dict.get(slug)
-    if not servicio:
-        return {"error": "Servicio no encontrado"}
-    return templates.TemplateResponse(
-        "servicio.html",
-        {"request": request, "servicio": servicio}
-    )
+@app.get("/servicio/{nombre}")
+async def servicio_detalle(request: Request, nombre: str):
+    # Buscar servicio por nombre
+    servicio = next((s for s in servicios if s["nombre"].replace(' ', '_').lower() == nombre.lower()), None)
+    if servicio is None:
+        return templates.TemplateResponse("404.html", {"request": request})
+    return templates.TemplateResponse("servicio.html", {"request": request, "servicio": servicio})

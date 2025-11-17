@@ -1,0 +1,117 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    background: #f4f6f8;
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+
+header {
+    background: linear-gradient(90deg, #0077cc, #00bfff);
+    color: #fff;
+    padding: 25px 20px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2em;
+}
+
+nav {
+    margin-top: 15px;
+}
+
+nav select {
+    padding: 8px 12px;
+    border-radius: 6px;
+    border: none;
+    font-size: 1em;
+}
+
+main {
+    padding: 30px 20px;
+}
+
+.servicios-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 25px;
+}
+
+.servicio-card {
+    background: #fff;
+    border-radius: 15px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.servicio-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+}
+
+.servicio-card img {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 15px;
+    transition: transform 0.3s;
+}
+
+.servicio-card:hover img {
+    transform: scale(1.1);
+}
+
+.servicio-card h2 {
+    font-size: 1.25em;
+    margin: 10px 0 5px;
+    color: #0077cc;
+}
+
+[data-disciplina="Electricidad"] { border-top: 4px solid #FFD700; }
+[data-disciplina="Fontanería"] { border-top: 4px solid #00BFFF; }
+[data-disciplina="Carpintería"] { border-top: 4px solid #FF8C00; }
+[data-disciplina="Pintura"] { border-top: 4px solid #32CD32; }
+
+.servicio-card a { text-decoration: none; color: inherit; }
+
+.servicio-detalle {
+    background: #fff;
+    max-width: 450px;
+    margin: 40px auto;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    text-align: center;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.servicio-detalle img {
+    width: 120px;
+    height: 120px;
+    margin-bottom: 20px;
+}
+
+.servicio-detalle a {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background: #0077cc;
+    color: #fff;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: background 0.3s;
+}
+
+.servicio-detalle a:hover {
+    background: #005fa3;
+}

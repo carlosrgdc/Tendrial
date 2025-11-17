@@ -3,10 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <title>{{ servicio.nombre }}</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
+<header>
     <h1>{{ servicio.nombre }}</h1>
-    <p>Disciplina: {{ servicio.disciplina }}</p>
-    <a href="/">Volver al inicio</a>
+</header>
+
+<main>
+    <div class="servicio-detalle">
+        <img src="/static/img/{{ servicio.img }}" alt="{{ servicio.nombre }}">
+        <h2>{{ servicio.nombre }}</h2>
+        <p>Disciplina: {{ servicio.disciplina }}</p>
+        <a href="/">Volver</a>
+    </div>
+</main>
 </body>
 </html>
