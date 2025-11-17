@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>Servicios de {{ tienda.capitalize() }}</h2>
+
+<form method="post" action="/hacer-pedido" onsubmit="prepareData()">
+
+    <input type="hidden" name="tienda" value="{{ tienda }}">
+    <input type="hidden" id="items_json" name="items_json">
+
+    <div class="mt-3">
+        {% for s in servicios %}
+        <div class="card mb-2 p-3">
+            <h5>{{ s.nombre }} – {{ s.precio }}€</h5>
+            <p>{{ s.descripcion }}</p>
+
+            <label>Unidades:</label>
+            <input type="number" min="0" value="0" class="form-control unidades" data-id="{{ s.id }}" data-nombre="{{ s.nombre }}" data-precio="{{ s.precio }}">
+        </div>
+        {% endfor %}
+    </div>
+
+    <button class="btn btn-success mt-3">Enviar pedido</button>
+
+</form>
+
+<script>
+function prepareData() {
+    let items = [];
+    document.querySelectorAll(".unidades").forEach(el => {
+        let qty = parseInt(el.value);
+        if (qty > 0) {
+            items.push({
+                id: el.dataset.id,
+                nombre: el.dataset.nombre,
+                precio: el.dataset.precio,
+                cantidad: qty
+            });
+        }
+    });
+    document.getElementById("items_json").value = JSON.stringify(items);
+}
+</script>
+
+{% endblock %}
